@@ -1,28 +1,40 @@
 # Define the source directory
-SRC_DIR = src
+OS_DIR = src/os
+INST_DIR = src/installer
 
 # Define the build directory
 BUILD_DIR = build
 
 # Collect all source files recursively
-SRC_FILES := $(shell find $(SRC_DIR) -name '*.c')
+INST_FILES := $(shell find $(INST_DIR) -name '*.c')
+OS_FILES := $(shell find $(OS_DIR) -name '*.c')
 
 # Compiler and flags
 CC = gcc
-CFLAGS += -g -Wno-everything -pthread -lm
+CFLAGS += -g -Wno-everything -pthread -lm -static
 
 # Targets
 all: main
 
-main:
-	$(CC) -o $(BUILD_DIR)/os $(SRC_FILES)
+main: full
+
+installer:
+	$(CC) -o $(BUILD_DIR)/inst/boot $(INST_FILES)
 	rm -rf $(BUILD_DIR)/obj/*.o
 
-full: main clean run
+os:
+	$(CC) -o $(BUILD_DIR)/os/boot $(OS_FILES)
+	rm -rf $(BUILD_DIR)/obj/*.o
 
-run:
+full: installer os clean runinst runos
+
+runos:
 	clear
-	./$(BUILD_DIR)/os
+	bash runos.sh
+
+runinst:
+	clear
+	bash runinst.sh
 
 clean:
 	rm -f main main-debug

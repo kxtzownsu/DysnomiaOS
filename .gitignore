@@ -1,4 +1,4 @@
-build/*
+build/
 .replit
 replit.nix
 .ccls-cache
