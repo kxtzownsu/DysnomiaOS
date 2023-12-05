@@ -13,7 +13,9 @@ void maininst(const char *installLocation){
   char filePath[10000];
   // Check if the "rootfs" dir does not exist
   if (stat(installLocation, &st) == -1) {
+      snprintf(mkdircmd, sizeof(mkdircmd), "mkdir %s", installLocation);
       printf("The directory %s does not exist.\n", installLocation);
+      system(mkdircmd);
   };
   // Extract rootfs to install location
   snprintf(cmd, sizeof(cmd), "tar -xvf rootfs.tar.gz -C \"%s\"", installLocation);

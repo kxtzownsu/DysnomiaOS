@@ -5,8 +5,8 @@
 #include "apps/installer/installer.h"
 
 
-void initos(){
+void initos(const char *installLocation){
   system("clear");
   printf("Dysnomia Kernel %s\n", osVersion);
-  maininst("/home/runner/DysnomiaOS/mnt-dysnomia");
+  maininst(installLocation);
 }
