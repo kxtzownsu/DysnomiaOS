@@ -18,7 +18,7 @@ all: main
 
 main: full
 
-installer:
+installer: rootfs
 	$(CC) -o $(BUILD_DIR)/inst/boot $(INST_FILES)
 	rm -rf $(BUILD_DIR)/obj/*.o
 
@@ -26,7 +26,7 @@ os:
 	$(CC) -o $(BUILD_DIR)/os/boot $(OS_FILES)
 	rm -rf $(BUILD_DIR)/obj/*.o
 
-full: installer os clean runinst runos
+full: installer os installerrootfs clean runinst runos
 
 runos:
 	clear
@@ -35,6 +35,9 @@ runos:
 runinst:
 	clear
 	bash runinst.sh
+
+rootfs:
+	tar -cvf ${BUILD_DIR}/inst/rootfs.tar.gz ./rootfs/
 
 clean:
 	rm -f main main-debug

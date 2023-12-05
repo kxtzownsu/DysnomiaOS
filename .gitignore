@@ -2,3 +2,6 @@ build/
 .replit
 replit.nix
 .ccls-cache
+mnt-dysnomia
+doc
+troller

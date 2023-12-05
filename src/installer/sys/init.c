@@ -4,8 +4,9 @@
 #include "../libs/lib.h"
 #include "apps/installer/installer.h"
 
+
 void initos(){
   system("clear");
   printf("Dysnomia Kernel %s\n", osVersion);
-  maininst("troller/");
+  maininst("/home/runner/DysnomiaOS/mnt-dysnomia");
 }

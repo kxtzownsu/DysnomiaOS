@@ -5,6 +5,7 @@
 
 void checkforroot(){
   printf("Checking for rootfs\n");
+  
 }
 
 void initos(){
