@@ -1,10 +1,14 @@
 #ifndef STRINGS_H
 #define STRINGS_H
 
-extern const char helloWorld[];
+// OS info
 extern const char osName[];
 extern const char osVersion[];
+extern char osFull[];
 
-// Add other string declarations as needed
+// Kernel info
+extern const char kernelName[];
+extern const char kernelVersion[];
+extern char kernFull[];
 
 #endif

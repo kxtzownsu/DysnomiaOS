@@ -11,7 +11,8 @@ OS_FILES := $(shell find $(OS_DIR) -name '*.c')
 
 # Compiler and flags
 CC = gcc
-CFLAGS += -g -Wno-everything -pthread -lm -static
+CFLAGS += -Wall -Wextra -Wpedantic -g -O3 -fPIC -flto -fstack-protector-strong -fsanitize=address
+
 
 # Targets
 all: main
@@ -19,11 +20,11 @@ all: main
 main: full
 
 installer: rootfs
-	$(CC) -o $(BUILD_DIR)/inst/boot $(INST_FILES)
+	$(CC) -o $(BUILD_DIR)/inst/boot $(INST_FILES) ${CFLAGS}
 	rm -rf $(BUILD_DIR)/obj/*.o
 
 os:
-	$(CC) -o $(BUILD_DIR)/os/boot $(OS_FILES)
+	$(CC) ${CFLAGS} -o $(BUILD_DIR)/os/boot $(OS_FILES)
 	rm -rf $(BUILD_DIR)/obj/*.o
 
 full: installer os installerrootfs clean runinst runos

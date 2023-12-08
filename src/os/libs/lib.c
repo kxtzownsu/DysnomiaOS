@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include "lib.h"
 #include <unistd.h>
+#include <stdlib.h>
+#include <string.h>
+#include "kernmsg.h"
 
 void print(const char *str) {
     printf("%s\n", str);
@@ -20,7 +23,7 @@ void progress_bar(int total, int length) {
             printf("-");
         }
 
-        printf("]", percent);
+        printf("] %.2f%%", percent);
         fflush(stdout);
 
         // Simulate some task (replace with actual task)

@@ -2,6 +2,7 @@
 #include "../libs/lib.h"
 #include "loader.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 void bootseq(){
   int total_items = 100;

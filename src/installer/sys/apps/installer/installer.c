@@ -19,7 +19,7 @@ void maininst(const char *installLocation){
   };
   // Extract rootfs to install location
   snprintf(cmd, sizeof(cmd), "tar -xvf rootfs.tar.gz -C \"%s\"", installLocation);
-  int result = system(cmd);
+  system(cmd);
 
   // Make Registry with Install Location, its going at "installLocation"
   sprintf(filePath, "%s/reg", installLocation);
