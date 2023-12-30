@@ -7,11 +7,12 @@ BUILD_DIR = build
 
 # Collect all source files recursively
 INST_FILES := $(shell find $(INST_DIR) -name '*.c')
-OS_FILES := $(shell find $(OS_DIR) -name '*.c')
+OS_FILES_C := $(shell find ${OS_DIR} -name '*.c' ! -path 'src/os/sys/modules/*')
 
 # Compiler and flags
 CC = gcc
-CFLAGS += -Wall -Wextra -Wpedantic -g -O3 -fPIC -flto -fstack-protector-strong -fsanitize=address
+CFLAGS +=
+#-static
 
 
 # Targets
@@ -24,7 +25,7 @@ installer: rootfs
 	rm -rf $(BUILD_DIR)/obj/*.o
 
 os:
-	$(CC) ${CFLAGS} -o $(BUILD_DIR)/os/boot $(OS_FILES)
+	$(CC) ${CFLAGS} -o $(BUILD_DIR)/os/boot $(OS_FILES_C)
 	rm -rf $(BUILD_DIR)/obj/*.o
 
 full: installer os installerrootfs clean runinst runos

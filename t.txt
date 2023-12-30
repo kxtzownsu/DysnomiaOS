@@ -1,4 +1,0 @@
-make os
-cp build/os/boot mnt-dysnomia
-cd mnt-dysnomia
-./boot -s

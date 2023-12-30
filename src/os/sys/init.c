@@ -2,9 +2,54 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
+#include <dirent.h>
 #include "../libs/strings.h"
 #include "../libs/lib.h"
 #include "../libs/kernmsg.h"
+
+void startModules(struct MessageBuffer *buffer) {
+    printf("Starting modules...\n");
+    kernmsg(buffer, "norm", "init", "Starting modules");
+
+    // Open the modules directory
+    DIR *dir = opendir("modules");
+    if (dir == NULL) {
+        printf("[ERROR] Unable to open modules directory\n");
+        kernmsg(buffer, "err", "init", "Unable to open modules directory");
+        return;
+    }
+
+    // Read entries in the modules directory
+    struct dirent *entry;
+    while ((entry = readdir(dir)) != NULL) {
+        // Skip "." and ".." entries
+        if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0) {
+            continue;
+        }
+
+        // Form the full path of the module executable
+        char modulePath[256];
+        snprintf(modulePath, sizeof(modulePath), "modules/%s", entry->d_name);
+
+        // Execute the module
+        int result = system(modulePath);
+
+        // Check the result of the module execution
+        if (result != 0) {
+            printf("[ERROR] Module %s failed to start\n", entry->d_name);
+            kernmsg(buffer, "err", "init", "Module failed to start");
+        } else {
+            printf("Module %s started successfully\n", entry->d_name);
+            kernmsg(buffer, "norm", "init", "Module started successfully");
+        }
+    }
+
+    // Close the modules directory
+    closedir(dir);
+
+    printf("Modules initialization complete.\n");
+    kernmsg(buffer, "norm", "init", "Modules initialization complete");
+}
 
 
 void checkforroot(struct MessageBuffer *buffer){
@@ -40,4 +85,6 @@ void initos(struct MessageBuffer *buffer){
   kernmsg(buffer, "norm", "init", "Dysnomia Kernel 0.1");
   checkforroot(buffer);
   displayMessages(buffer);
+  startModules(buffer);
+  termInitialize(buffer);
 }
