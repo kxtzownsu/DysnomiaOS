@@ -31,3 +31,36 @@ void progress_bar(int total, int length) {
     }
     printf("\n");
 }
+
+const char* input(const char* prompt) {
+    printf("%s", prompt);
+
+    // Allocate memory dynamically for the buffer
+    char* buffer = NULL;
+    size_t buffer_size = 0;
+
+    // Read input
+    if (getline(&buffer, &buffer_size, stdin) != -1) {
+        // Remove the newline character at the end
+        size_t len = strlen(buffer);
+        if (len > 0 && buffer[len - 1] == '\n') {
+            buffer[len - 1] = '\0';
+        }
+
+        // Duplicate the string using malloc
+        char* result = (char*)malloc(len + 1);
+        if (result != NULL) {
+            strcpy(result, buffer);
+        }
+
+        // Free the original buffer
+        free(buffer);
+
+        return result;
+    }
+
+    // In case of error or end of file
+    return NULL;
+}
+
+
